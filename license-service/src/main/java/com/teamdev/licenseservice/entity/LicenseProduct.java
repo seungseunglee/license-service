@@ -7,7 +7,8 @@ import org.hibernate.annotations.Comment;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity(name = "license_product")
+@Entity
+@Table(name = "license_product")
 @NoArgsConstructor
 public class LicenseProduct {
 
