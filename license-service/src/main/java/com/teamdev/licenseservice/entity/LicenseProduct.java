@@ -1,15 +1,17 @@
 package com.teamdev.licenseservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
+@Getter
 @Entity
 @Table(name = "license_product")
-@NoArgsConstructor
 public class LicenseProduct {
 
     @Id

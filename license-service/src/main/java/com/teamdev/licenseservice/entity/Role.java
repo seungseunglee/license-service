@@ -1,5 +1,6 @@
 package com.teamdev.licenseservice.entity;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
@@ -7,8 +8,10 @@ import javax.persistence.*;
 
 import javax.validation.constraints.Size;
 
-@Entity
 @NoArgsConstructor
+@Getter
+@Entity
+@Table
 public class Role {
 
     @Id

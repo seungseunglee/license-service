@@ -1,6 +1,7 @@
 package com.teamdev.licenseservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -8,8 +9,10 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
 @NoArgsConstructor
+@Getter
+@Entity
+@Table
 public class License {
 
     @Id
