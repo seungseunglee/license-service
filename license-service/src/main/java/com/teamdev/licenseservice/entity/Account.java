@@ -1,6 +1,8 @@
 package com.teamdev.licenseservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
@@ -8,17 +10,17 @@ import org.hibernate.annotations.Comment;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table
-public class Account {
+@AttributeOverride(name = "id", column = @Column(name = "account_id"))
+public class Account extends BaseEntity {
 
-    @Id
-    @Column(name = "account_id")
+    @Column(name = "account_name")
     @Size(max = 20)
-    @Comment("계정ID")
-    private String id;
+    @Comment("계정이름")
+    private String name;
 
     @Column(name = "password", nullable = false)
     @Size(max = 20)
@@ -30,4 +32,11 @@ public class Account {
     @JsonIgnore
     @Comment("역할ID")
     private Role role;
+
+    @Builder
+    public Account(String name, String password, Role role) {
+        this.name = name;
+        this.password = password;
+        this.role = role;
+    }
 }

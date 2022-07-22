@@ -1,41 +1,32 @@
 package com.teamdev.licenseservice.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 @Table
-public class Auth {
-
-    @Id
-    @Column(name = "auth_id", columnDefinition ="INT(10) UNSIGNED")
-    @Comment("인증ID")
-    private Integer id;
+@AttributeOverride(name = "id", column = @Column(name = "auth_id"))
+public class Auth extends BaseTimeEntity {
 
     @Column(name = "device", columnDefinition ="BINARY(16)", nullable = false)
     @Comment("기기일련번호")
     private UUID device;
 
-    @Column(name = "is_activated", columnDefinition = "BOOLEAN DEFAULT TRUE", nullable = false)
+    @Column(name = "is_activated", nullable = false)
+    @ColumnDefault("TRUE")
     @Comment("활성여부")
     private Boolean isActivated;
-
-    @Column(name = "create_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", nullable = false)
-    @Comment("생성일시")
-    private LocalDateTime createAt;
-
-    @Column(name = "update_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP", nullable = false)
-    @Comment("수정일시")
-    private LocalDateTime updateAt;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "license_key", nullable = false)
@@ -49,4 +40,16 @@ public class Auth {
     @Comment("제품ID")
     private Product product;
 
+    @Builder
+    public Auth(UUID device, Boolean isActivated, License license, Product product) {
+        this.device = device;
+        this.isActivated = isActivated;
+        this.license = license;
+        this.product = product;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        this.isActivated = this.isActivated == null ? true : this.isActivated;
+    }
 }
